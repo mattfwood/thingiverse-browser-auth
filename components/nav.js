@@ -1,7 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
+import { Link as StyledLink } from '@chakra-ui/core';
 import styled from 'styled-components';
 import { thingiverse_client_id, host } from '../config';
+import useCurrentUser from '../hooks/useCurrentUser';
 
 const NavigationBar = styled.nav`
   display: flex;
@@ -32,19 +34,31 @@ const links = [
   return link
 })
 
-const Nav = () => (
-  <NavigationBar>
-    <Link href="/">
-      <a>Thingiverse Browser</a>
-    </Link>
-    <div>
-      <Link href={`https://www.thingiverse.com/login/oauth/authorize?client_id=${thingiverse_client_id}&redirect_uri=${host}api/auth`}>
-        <a>
-          Sign In
-        </a>
+const thingiverseAuthLink = `https://www.thingiverse.com/login/oauth/authorize?client_id=${thingiverse_client_id}&response_type=token&redirect_uri=${host}auth`
+
+const Nav = () => {
+  const { isLoggedIn } = useCurrentUser();
+
+  console.log({ isLoggedIn })
+
+  return (
+    <NavigationBar>
+      <Link href="/">
+        <StyledLink>Thingiverse Browser</StyledLink>
       </Link>
-    </div>
-  </NavigationBar>
-)
+      <div>
+        {isLoggedIn ? (
+          <Link href="/account">
+            <StyledLink>Account</StyledLink>
+          </Link>
+        ): (
+          <StyledLink href={thingiverseAuthLink}>
+              Sign In
+          </StyledLink>
+        )}
+      </div>
+    </NavigationBar>
+  )
+}
 
 export default Nav
