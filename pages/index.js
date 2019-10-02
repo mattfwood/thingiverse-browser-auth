@@ -15,15 +15,15 @@ const Home = ({ results }) => {
 
       <ThingsList results={results} />
     </div>
-  )
-}
+  );
+};
 
 Home.getInitialProps = async ({ query }) => {
   const res = await instance.get(`api/search?q=${query.q}`);
 
   return {
     results: res.data,
-  }
-}
+  };
+};
 
-export default Home
+export default Home;

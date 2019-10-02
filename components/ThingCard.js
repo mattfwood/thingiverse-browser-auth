@@ -3,11 +3,12 @@ import Link from 'next/link'
 import { Box, Image, Link as StyledLink } from '@chakra-ui/core';
 
 function ThingCard({ thing }) {
+  console.log({ thing })
   return (
-    <Box borderWidth="1px" maxW="300px" rounded="lg" marginBottom="8px" height="300px">
+    <Box borderWidth="1px" maxW="300px" rounded="lg" marginBottom="8px">
       <Image src={thing.thumbnail.replace('_thumb_medium', '_preview_card')}  alt={thing.name} />
 
-      <Box p="6">
+      <Box p="3">
         {/* <Box d="flex" alignItems="baseline">
           <Badge rounded="full" px="2" variantColor="teal">
             New
@@ -27,12 +28,11 @@ function ThingCard({ thing }) {
         <Box
           mt="1"
           fontWeight="semibold"
-          as="h4"
           lineHeight="tight"
           isTruncated
         >
           <Link href={`/thing/${thing.id}`}>
-            <StyledLink>
+            <StyledLink as="h4">
               {thing.name}
             </StyledLink>
           </Link>

@@ -48,8 +48,8 @@ const Nav = () => {
       </Link>
       <div>
         {isLoggedIn ? (
-          <Link href="/account">
-            <StyledLink>Account</StyledLink>
+          <Link href="/Liked">
+            <StyledLink>Liked Things</StyledLink>
           </Link>
         ): (
           <StyledLink href={thingiverseAuthLink}>
