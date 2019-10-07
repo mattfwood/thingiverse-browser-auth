@@ -3,7 +3,6 @@ import nextCookie from 'next-cookies';
 import { Box } from '@chakra-ui/core';
 import Nav from '../components/nav';
 import instance from '../lib/instance';
-import getHost from '../utils/get-host';
 import ThingsList from '../components/ThingsList';
 
 const AccountPage = ({ user, likes }) => {
@@ -20,9 +19,6 @@ const AccountPage = ({ user, likes }) => {
 
 AccountPage.getInitialProps = async ctx => {
   const { thingiverse_access_token } = nextCookie(ctx);
-  // const apiUrl = `${getHost(ctx.req)}/api/liked`;
-
-  // console.log({ apiUrl });
 
   try {
     const res = await instance.get(`api/me`, {
@@ -30,8 +26,6 @@ AccountPage.getInitialProps = async ctx => {
         authorization: `Bearer ${thingiverse_access_token}`,
       },
     });
-
-    console.log(res.data);
 
     return {
       user: res.data.user,

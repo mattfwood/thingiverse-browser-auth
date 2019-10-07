@@ -1,18 +1,23 @@
 import React from 'react';
-import Head from 'next/head';
-import { Button, Input, Flex } from '@chakra-ui/core';
-import instance from '../lib/instance';
-import Nav from '../components/nav';
+import styled from 'styled-components';
 import ThingCard from './ThingCard';
+
+const Grid = styled.div`
+  display: grid;
+  align-items: center;
+  padding: 10px;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+`;
 
 const ThingsList = ({ results }) => {
   return (
-    <Flex flexWrap="wrap" justifyContent="space-around" paddingTop="10px">
+    <Grid>
       {results.map(result => (
         <ThingCard key={result.id} thing={result} />
       ))}
-    </Flex>
-  )
-}
+    </Grid>
+  );
+};
 
-export default ThingsList
+export default ThingsList;
