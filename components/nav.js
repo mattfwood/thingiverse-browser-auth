@@ -12,13 +12,13 @@ const NavigationBar = styled.nav`
   border-bottom: 1px solid rgb(236, 236, 236);
   width: 100%;
   height: 48px;
+  font-size: 16px;
   padding: 0 24px;
 
   a {
     display: inline-block;
     padding: 5px;
     margin-left: -5px;
-    margin-right: 2rem;
     -webkit-text-decoration: none;
     text-decoration: none;
     -webkit-transition: color 0.2s ease;
@@ -44,7 +44,7 @@ const Nav = () => {
   return (
     <NavigationBar>
       <Link href="/">
-        <StyledLink>Thingiverse Browser</StyledLink>
+        <StyledLink fontWeight={600}>Thingiverse Browser</StyledLink>
       </Link>
       <div>
         {isLoggedIn ? (
