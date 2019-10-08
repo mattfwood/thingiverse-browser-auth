@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import {
   Heading,
@@ -73,7 +73,9 @@ const sliderSettings = {
 };
 
 const ThingPage = ({ thing }) => {
-  console.log({ thing });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
   const displayImages = thing.images.reduce((images, image) => {
     const largeDisplayImage = image.sizes.find(
       size => size.size === 'large' && size.type === 'display'
@@ -84,6 +86,30 @@ const ThingPage = ({ thing }) => {
     }
     return images;
   }, []);
+
+  const handleLike = async () => {
+    setIsLoading(true);
+
+    if (!isLiked) {
+      const res = await instance.get(`api/like?thingId=${thing.id}`);
+
+      if (res.data.response.ok === 'ok') {
+        setIsLiked(true);
+      }
+    } else {
+      setIsLiked(false);
+    }
+
+    setIsLoading(false);
+  };
+
+  const isLikedValue = isLiked ? 1 : 0;
+
+  const color = isLiked ? 'red' : 'none';
+
+  const HeartIcon = () => (
+    <FiHeart fill={color} color={color} style={{ marginLeft: 8 }} />
+  );
 
   return (
     <div>
@@ -101,7 +127,13 @@ const ThingPage = ({ thing }) => {
       </Box>
       <Flex padding={3} flexDirection="column">
         <Flex justifyContent="flex-end">
-          <Button rightIcon={FiHeart}>{thing.like_count} Likes</Button>
+          <Button
+            isLoading={isLoading}
+            onClick={handleLike}
+            rightIcon={HeartIcon}
+          >
+            {thing.like_count + isLikedValue} Likes
+          </Button>
         </Flex>
         <Heading marginTop={2}>{thing.name}</Heading>
         <Box paddingY={3}>
