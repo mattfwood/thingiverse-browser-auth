@@ -10,6 +10,7 @@ import {
   Button,
   StatNumber,
   StatGroup,
+  StatHelpText,
 } from '@chakra-ui/core';
 import Slider from 'react-slick';
 import { FiHeart } from 'react-icons/fi';
@@ -126,7 +127,20 @@ const ThingPage = ({ thing }) => {
                 <Heading size="lg" mb={2}>
                   {section.name}
                 </Heading>
-                <ReactMarkdown source={section.data[0].content} />
+                {section.type === 'settings' ? (
+                  <>
+                    {Object.entries(section.data[0]).map(([key, value]) => (
+                      <Stat>
+                        <StatLabel textTransform="capitalize">
+                          {key.replace('_', ' ')}:
+                        </StatLabel>
+                        <StatHelpText>{value}</StatHelpText>
+                      </Stat>
+                    ))}
+                  </>
+                ) : (
+                  <ReactMarkdown source={section.data[0].content} />
+                )}
               </>
             );
           })}
