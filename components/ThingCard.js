@@ -1,19 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
-import { Box, Image, Link as StyledLink } from '@chakra-ui/core';
+import { Box } from '@chakra-ui/core';
 
 function ThingCard({ thing }) {
   console.log({ thing });
   return (
     <Link href={`/thing/${thing.id}`}>
-      <StyledLink
-        position="relative"
-        transition="180ms all ease"
-        _hover={{
-          // boxShadow: '1px 4px 4px rgba(0, 0, 0, 0.9)',
-          transform: 'translateY(-2px)',
-        }}
-      >
+      <a className="thing-card">
         <Box
           borderWidth="1px"
           height="200px"
@@ -42,7 +35,7 @@ function ThingCard({ thing }) {
             {thing.name}
           </Box>
         </Box>
-      </StyledLink>
+      </a>
     </Link>
   );
 }

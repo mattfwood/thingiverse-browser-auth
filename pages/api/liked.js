@@ -1,7 +1,5 @@
 import serverInstance from '../../lib/serverInstance';
 
-const { parse } = require('cookie');
-
 export default async (req, res) => {
   try {
     const { thingiverse_access_token } = req.cookies;

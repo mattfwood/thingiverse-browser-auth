@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Input,
-  Flex,
-  Button,
-  InputGroup,
-  InputRightAddon,
-  IconButton,
-} from '@chakra-ui/core';
+import { Input, Flex, IconButton } from '@chakra-ui/core';
 import { FiSearch } from 'react-icons/fi';
 import instance from '../lib/instance';
 import ThingsList from './ThingsList';

@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { Link as StyledLink } from '@chakra-ui/core';
 import styled from 'styled-components';
 import { thingiverse_client_id, host } from '../config';
 import useCurrentUser from '../hooks/useCurrentUser';
@@ -26,14 +25,6 @@ const NavigationBar = styled.nav`
   }
 `;
 
-const links = [
-  { href: 'https://zeit.co/now', label: 'ZEIT' },
-  { href: 'https://github.com/zeit/next.js', label: 'GitHub' },
-].map(link => {
-  link.key = `nav-link-${link.href}-${link.label}`;
-  return link;
-});
-
 const thingiverseAuthLink = `https://www.thingiverse.com/login/oauth/authorize?client_id=${thingiverse_client_id}&response_type=token&redirect_uri=${host}auth`;
 
 const Nav = () => {
@@ -44,15 +35,15 @@ const Nav = () => {
   return (
     <NavigationBar>
       <Link href="/">
-        <StyledLink fontWeight={600}>Thingiverse Browser</StyledLink>
+        <a>Thingiverse Browser</a>
       </Link>
       <div>
         {isLoggedIn ? (
           <Link href="/liked">
-            <StyledLink>Liked Things</StyledLink>
+            <a>Liked Things</a>
           </Link>
         ) : (
-          <StyledLink href={thingiverseAuthLink}>Sign In</StyledLink>
+          <a href={thingiverseAuthLink}>Sign In</a>
         )}
       </div>
     </NavigationBar>

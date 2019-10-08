@@ -5,7 +5,7 @@ import Nav from '../components/nav';
 import instance from '../lib/instance';
 import ThingsList from '../components/ThingsList';
 
-const AccountPage = ({ user, likes }) => {
+const AccountPage = ({ likes }) => {
   return (
     <div>
       <Nav />

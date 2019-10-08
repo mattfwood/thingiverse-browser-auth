@@ -32,6 +32,15 @@ const GlobalStyle = createGlobalStyle`
   .thing-text-content p {
     margin-bottom: 10px;
   }
+
+  .thing-card {
+    position: relative;
+    transition: 180ms all ease;
+  }
+
+  .thing-card:hover {
+    transform: translateY(-2px);
+  }
 `;
 
 class MyApp extends App {

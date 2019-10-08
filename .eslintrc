@@ -1,3 +1,6 @@
 {
-  "extends": ["cratebind"]
+  "extends": ["cratebind"],
+  "rules": {
+    "camelcase": "off"
+  }
 }

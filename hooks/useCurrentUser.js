@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 
 const useCurrentUser = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(Cookies.get('thingiverse_access_token') !== undefined);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    Cookies.get('thingiverse_access_token') !== undefined
+  );
 
   useEffect(() => {
     const token = Cookies.get('thingiverse_access_token');
@@ -10,11 +12,11 @@ const useCurrentUser = () => {
     if (token) {
       setIsLoggedIn(true);
     }
-  }, [])
+  }, []);
 
   return {
-    isLoggedIn
-  }
-}
+    isLoggedIn,
+  };
+};
 
 export default useCurrentUser;
