@@ -11,9 +11,16 @@ import {
   StatNumber,
   StatGroup,
   StatHelpText,
+  Link,
+  Icon,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
 } from '@chakra-ui/core';
 import Slider from 'react-slick';
-import { FiHeart } from 'react-icons/fi';
+import { FiDownload, FiExternalLink, FiHeart } from 'react-icons/fi';
 import ReactMarkdown from 'react-markdown';
 
 import Nav from '../../components/nav';
@@ -73,7 +80,9 @@ const sliderSettings = {
 };
 
 const ThingPage = ({ thing }) => {
+  console.log({ thing });
   const [isLoading, setIsLoading] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
 
   const displayImages = thing.images.reduce((images, image) => {
@@ -103,6 +112,21 @@ const ThingPage = ({ thing }) => {
     setIsLoading(false);
   };
 
+  const handleDownload = async () => {
+    try {
+      setIsDownloading(true);
+      const res = await instance.get(`api/download?id=${thing.id}`);
+
+      const url = res.data.data.public_url;
+
+      window.open(url, '_blank');
+    } catch (error) {
+      console.error(error.message);
+    }
+
+    setIsDownloading(false);
+  };
+
   const isLikedValue = isLiked ? 1 : 0;
 
   const color = isLiked ? 'red' : 'none';
@@ -125,58 +149,86 @@ const ThingPage = ({ thing }) => {
           ))}
         </Slider>
       </Box>
+      <Flex justifyContent="space-between" padding={3}>
+        <Button
+          isLoading={isDownloading}
+          onClick={handleDownload}
+          rightIcon={FiDownload}
+        >
+          Download Files
+        </Button>
+        <Button
+          isLoading={isLoading}
+          onClick={handleLike}
+          rightIcon={HeartIcon}
+        >
+          {thing.like_count + isLikedValue} Likes
+        </Button>
+      </Flex>
       <Flex padding={3} flexDirection="column">
-        <Flex justifyContent="flex-end">
-          <Button
-            isLoading={isLoading}
-            onClick={handleLike}
-            rightIcon={HeartIcon}
-          >
-            {thing.like_count + isLikedValue} Likes
-          </Button>
-        </Flex>
-        <Heading marginTop={2}>{thing.name}</Heading>
-        <Box paddingY={3}>
-          <StatGroup>
-            <Stat>
-              <StatLabel>Views</StatLabel>
-              <StatNumber>{thing.view_count}</StatNumber>
-            </Stat>
-            <Stat>
-              <StatLabel>Downloads</StatLabel>
-              <StatNumber>{thing.download_count}</StatNumber>
-            </Stat>
-          </StatGroup>
-        </Box>
-        <Box paddingY={3} className="thing-text-content">
-          {thing.details_parts.map(section => {
-            if (!section.data) {
-              return null;
-            }
+        <Tabs>
+          <TabList>
+            <Tab>Details</Tab>
+            <Tab>Files</Tab>
+            {/* <Tab>Three</Tab> */}
+          </TabList>
 
-            return (
-              <>
-                <Heading size="lg" mb={2}>
-                  {section.name}
+          <TabPanels>
+            <TabPanel>
+              <Link isExternal href={thing.public_url}>
+                <Heading marginTop={2}>
+                  {thing.name} <Icon as={FiExternalLink} size="22px" mb="4px" />
                 </Heading>
-                {section.type === 'settings' ? (
-                  <>
-                    {Object.entries(section.data[0]).map(([key, value]) => (
-                      <Stat>
-                        <StatLabel textTransform="capitalize">
-                          {key.replace('_', ' ')}:
-                        </StatLabel>
-                        <StatHelpText>{value}</StatHelpText>
-                      </Stat>
-                    ))}
-                  </>
-                ) : (
-                  <ReactMarkdown source={section.data[0].content} />
-                )}
-              </>
-            );
-          })}
-        </Box>
+              </Link>
+              <Box paddingY={3}>
+                <StatGroup>
+                  <Stat>
+                    <StatLabel>Views</StatLabel>
+                    <StatNumber>{thing.view_count}</StatNumber>
+                  </Stat>
+                  <Stat>
+                    <StatLabel>Downloads</StatLabel>
+                    <StatNumber>{thing.download_count}</StatNumber>
+                  </Stat>
+                </StatGroup>
+              </Box>
+              <Box paddingY={3} className="thing-text-content">
+                {thing.details_parts.map(section => {
+                  if (!section.data) {
+                    return null;
+                  }
+
+                  return (
+                    <>
+                      <Heading size="lg" mb={2}>
+                        {section.name}
+                      </Heading>
+                      {section.type === 'settings' ? (
+                        <>
+                          {Object.entries(section.data[0]).map(
+                            ([key, value]) => (
+                              <Stat>
+                                <StatLabel textTransform="capitalize">
+                                  {key.replace('_', ' ')}:
+                                </StatLabel>
+                                <StatHelpText>{value}</StatHelpText>
+                              </Stat>
+                            )
+                          )}
+                        </>
+                      ) : (
+                        <ReactMarkdown source={section.data[0].content} />
+                      )}
+                    </>
+                  );
+                })}
+              </Box>
+            </TabPanel>
+            <TabPanel>
+              <i>Coming Soon</i>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Flex>
     </div>
   );
