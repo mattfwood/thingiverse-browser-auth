@@ -4,7 +4,7 @@ import instance from '../lib/instance';
 import Nav from '../components/nav';
 import SearchView from '../components/SearchView';
 
-const Home = ({ results }) => {
+const Home = ({ results, query }) => {
   return (
     <div>
       <Head>
@@ -13,7 +13,7 @@ const Home = ({ results }) => {
 
       <Nav />
 
-      <SearchView initialResults={results} />
+      <SearchView initialResults={results} query={query} />
 
       {/* <ThingsList results={results} /> */}
     </div>
@@ -25,6 +25,7 @@ Home.getInitialProps = async ({ query }) => {
 
   return {
     results: res.data,
+    query: query.q,
   };
 };
 
