@@ -36,6 +36,17 @@ const SearchView = ({ initialResults = [], query = '' }) => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    const getInitialResults = async () => {
+      const res = await instance.get(`/api/search`);
+      setResults(res.data);
+    };
+
+    if (query === '') {
+      getInitialResults();
+    }
+  }, [query]);
+
   return (
     <div>
       <Flex

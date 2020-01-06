@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { Box } from '@chakra-ui/core';
 
 function ThingCard({ thing }) {
-  console.log({ thing });
   return (
     <Link href={`/thing/${thing.id}`}>
       <a className="thing-card">

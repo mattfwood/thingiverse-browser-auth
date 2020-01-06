@@ -21,6 +21,13 @@ const Home = ({ results, query }) => {
 };
 
 Home.getInitialProps = async ({ query }) => {
+  if (!query || !query.q) {
+    return {
+      results: [],
+      query: '',
+    };
+  }
+
   const res = await instance.get(`api/search?q=${query.q}`);
 
   return {
