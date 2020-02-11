@@ -17,11 +17,13 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  IconButton,
 } from '@chakra-ui/core';
 import ImageGallery from 'react-image-gallery';
 import { FiDownload, FiExternalLink, FiHeart } from 'react-icons/fi';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
+import { ChevronLeft, ChevronRight, Maximize } from 'react-feather';
 
 import Nav from '../../components/nav';
 import instance from '../../lib/instance';
@@ -32,6 +34,38 @@ const MaxContainer = styled.div`
   max-width: ${p => p.width || 1080}px;
   margin: auto;
 `;
+
+const ICON_SIZE = 18;
+
+const GalleryButton = ({ direction, ...props }) => {
+  const isLeft = direction === 'left';
+
+  const buttonProps = {
+    [direction]: 0,
+    // eslint-disable-next-line
+    icon: () =>
+      isLeft ? (
+        <ChevronLeft size={ICON_SIZE} />
+      ) : (
+        <ChevronRight size={ICON_SIZE} />
+      ),
+  };
+
+  return (
+    <IconButton
+      {...buttonProps}
+      mx={3}
+      size="md"
+      bg="#fff"
+      borderRadius="100%"
+      position="absolute"
+      top="50%"
+      transform="translateY(-50%)"
+      zIndex={50}
+      {...props}
+    />
+  );
+};
 
 const ThingPage = ({ thing }) => {
   console.log({ thing });
@@ -108,6 +142,37 @@ const ThingPage = ({ thing }) => {
               original: image.url,
               thumbnail: image.url,
             }))}
+            showPlayButton={false}
+            renderRightNav={(onClick, disabled) => (
+              <GalleryButton
+                direction="right"
+                onClick={onClick}
+                disabled={disabled}
+              />
+            )}
+            renderLeftNav={(onClick, disabled) => (
+              <GalleryButton
+                direction="left"
+                onClick={onClick}
+                disabled={disabled}
+              />
+            )}
+            renderFullscreenButton={(onClick, disabled) => (
+              <GalleryButton
+                direction="left"
+                icon={() => <Maximize />}
+                position="absolute"
+                right="0"
+                bottom="0"
+                my="15px"
+                top="initial"
+                left="initial"
+                transform="initial"
+                // padding="15px 20px"
+                onClick={onClick}
+                disabled={disabled}
+              />
+            )}
           />
         </Box>
         <Flex justifyContent="space-between" padding={3}>
